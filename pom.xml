@@ -1,72 +1,117 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>my-multi-lang-app</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <groupId>com.mt</groupId>
+    <artifactId>maven-web-application</artifactId>
     <packaging>war</packaging>
+    <version>0.0.2-SNAPSHOT</version>
 
-    <name>My Multi-Language Application</name>
-    <description>A sample Java web application integrated with Nexus and SonarQube</description>
+    <name>maven-web-application</name>
+    <description>Maven Web Project for Java Project</description>
+
+    <organization>
+        <name>Landmark Technologies</name>
+        <url>http://landmarktechnologies.com/</url>
+    </organization>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <sonar.projectKey>my-project</sonar.projectKey>
-        <sonar.host.url>http://192.168.1.134:9000</sonar.host.url>
+        <jdk.version>1.8</jdk.version>
+        <spring.version>5.3.20</spring.version>
+        <junit.version>4.12</junit.version>
+        <log4j.version>1.2.17</log4j.version>
+        <sonar.projectKey>maven-web-application</sonar.projectKey>
+        <sonar.host.url>http://192.168.1.143:9000</sonar.host.url>
         <sonar.login>${env.SONAR_TOKEN}</sonar.login>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <repositories>
         <repository>
             <id>nexus-releases</id>
-            <url>http://<nexus-host>:8081/repository/maven-releases/</url>
+            <name>Landmark Technologies Releases Nexus Repository</name>
+            <url>http://192.168.1.143:8081/repository/tesla-be-releases/</url>
         </repository>
         <repository>
             <id>nexus-snapshots</id>
-            <url>http://<nexus-host>:8081/repository/maven-snapshots/</url>
+            <name>Landmark Technologies Snapshot Nexus Repository</name>
+            <url>http://192.168.1.143:8081/repository/tesla-be-snapshots/</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
-            <id>nexus-releases</id>
-            <url>http://<nexus-host>:8081/repository/maven-releases/</url>
+            <id>nexus</id>
+            <name>Landmark Technologies Releases Nexus Repository</name>
+            <url>http://192.168.1.143:8081/repository/tesla-be-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://<nexus-host>:8081/repository/maven-snapshots/</url>
+            <id>nexus</id>
+            <name>Landmark Technologies Snapshot Nexus Repository</name>
+            <url>http://192.168.1.143:8081/repository/tesla-be-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
     <dependencies>
-        <!-- Servlet API for web applications -->
+        <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Spring Web MVC for REST APIs or web endpoints -->
+        <!-- JSON Processing -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20230227</version>
+        </dependency>
+        <!-- Spring Dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.3.20</version>
+            <version>${spring.version}</version>
         </dependency>
-        <!-- JUnit for testing -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.9.2</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Logging -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 
     <build>
+        <finalName>tesla</finalName>
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>
@@ -74,11 +119,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                 </configuration>
             </plugin>
-            <!-- Maven WAR Plugin for web app packaging -->
+            <!-- Maven WAR Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -87,13 +132,25 @@
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                 </configuration>
             </plugin>
+            <!-- Jetty Plugin for Local Testing -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.51.v20230217</version>
+                <configuration>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/maven-web-application</contextPath>
+                    </webApp>
+                </configuration>
+            </plugin>
             <!-- SonarQube Scanner Plugin -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.9.1.2184</version>
             </plugin>
-            <!-- JaCoCo for code coverage -->
+            <!-- JaCoCo for Code Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -113,11 +170,23 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- Surefire for running unit tests -->
+            <!-- Surefire for Unit Tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version>
+            </plugin>
+            <!-- Eclipse Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                    <wtpversion>2.0</wtpversion>
+                    <wtpContextName>maven-web-application</wtpContextName>
+                </configuration>
             </plugin>
         </plugins>
     </build>
