@@ -24,7 +24,7 @@
         
         <!-- SonarQube Settings -->
         <sonar.projectKey>maven-web-application</sonar.projectKey>
-        <sonar.host.url>http://192.168.1.143:9000</sonar.host.url>
+        <sonar.host.url>http://192.168.1.134:9000</sonar.host.url>
         <!-- Jenkins will inject SONAR_TOKEN from credentials ID=sonar-token -->
         <sonar.login>${env.SONAR_TOKEN}</sonar.login>
         
@@ -36,12 +36,12 @@
         <repository>
             <id>nexus-releases</id>
             <name>Landmark Technologies Releases Nexus Repository</name>
-            <url>http://192.168.1.143:8081/repository/tesla-be-releases/</url>
+            <url>http://192.168.1.134:8081/repository/tesla-be-releases/</url>
         </repository>
         <repository>
             <id>nexus-snapshots</id>
             <name>Landmark Technologies Snapshot Nexus Repository</name>
-            <url>http://192.168.1.143:8081/repository/tesla-be-snapshots/</url>
+            <url>http://192.168.1.134:8081/repository/tesla-be-snapshots/</url>
         </repository>
     </repositories>
 
@@ -49,12 +49,12 @@
         <repository>
             <id>nexus</id>
             <name>Landmark Technologies Releases Nexus Repository</name>
-            <url>http://192.168.1.143:8081/repository/tesla-be-releases/</url>
+            <url>http://192.168.1.134:8081/repository/tesla-be-releases/</url>
         </repository>
         <snapshotRepository>
             <id>nexus</id>
             <name>Landmark Technologies Snapshot Nexus Repository</name>
-            <url>http://192.168.1.143:8081/repository/tesla-be-snapshots/</url>
+            <url>http://192.168.1.134:8081/repository/tesla-be-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
