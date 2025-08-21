@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven-3.9'   // use the Maven name you configured in Jenkins Global Tools
+        maven "maven3.6.0"   // use the Maven name you configured in Jenkins Global Tools
         jdk 'JDK-1.8'       // adjust to your configured JDK
     }
 
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://your.git.repo/maven-web-application.git'
+                git branch: 'master', url: 'https://github.com/rexiemedia/maven-web-application.git'
             }
         }
 
