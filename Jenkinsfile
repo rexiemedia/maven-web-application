@@ -1,3 +1,53 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven-3.9'   // use the Maven name you configured in Jenkins Global Tools
+        jdk 'JDK-1.8'       // adjust to your configured JDK
+    }
+
+    environment {
+        SONAR_HOST_URL = "http://192.168.1.143:9000"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://your.git.repo/maven-web-application.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -DskipTests'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            environment {
+                // Inject SONAR_TOKEN from Jenkins credentials (ID = sonar-token)
+                SONAR_TOKEN = credentials('sonar-token')
+            }
+            steps {
+                sh '''
+                    mvn sonar:sonar \
+                        -Dsonar.projectKey=maven-web-application \
+                        -Dsonar.host.url=$SONAR_HOST_URL \
+                        -Dsonar.login=$SONAR_TOKEN
+                '''
+            }
+        }
+    }
+}
+
+
+/*
 pipeline{
   agent any 
   tools {
@@ -17,7 +67,7 @@ pipeline{
         sh "mvn clean package"
       }
     }
-    /*
+    
     stage('4CodeQuality'){
       steps{
         sh "echo 'Perfoming CodeQualityAnalysis' "
